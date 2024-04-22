@@ -1,0 +1,16 @@
+services:
+  java-ssl-client:
+    build:
+      context: java-ssl-client
+    network_mode: host
+    depends_on:
+      - erlang-server
+    command: [ "java", "-cp", "/usr/src/app/classes", "net.christopherschultz.ssltest.SSLTest", "-ciphers", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384", "-showcerts", "-enabledprotocols", "TLSv1.2", "localhost:8443" ]
+  erlang-server:
+    build:
+      context: .
+      args:
+        ERLANG_VERSION: 26 # set to 26 to reproduce the issue
+    volumes:
+      - ./ssl:/etc/ssl/certs
+    network_mode: host

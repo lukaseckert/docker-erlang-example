@@ -1,5 +1,5 @@
-# Build stage 0
-FROM erlang:24-alpine
+ARG ERLANG_VERSION=26
+FROM erlang:${ERLANG_VERSION}
 
 # Set working directory
 RUN mkdir /buildroot
@@ -12,13 +12,8 @@ COPY dockerwatch dockerwatch
 WORKDIR dockerwatch
 RUN rebar3 as prod release
 
-# Build stage 1
-FROM alpine
-
-# Install some libs
-RUN apk add --no-cache openssl && \
-    apk add --no-cache ncurses-libs && \
-    apk add --no-cache libstdc++
+# Start with clean image
+FROM erlang:${ERLANG_VERSION}
 
 # Install the released application
 COPY --from=0 /buildroot/dockerwatch/_build/prod/rel/dockerwatch /dockerwatch
