@@ -10,7 +10,7 @@ services:
     build:
       context: .
       args:
-        ERLANG_VERSION: 26 # set to 26 to reproduce the issue
+        ERLANG_VERSION: 25 # set to 26 to reproduce the issue
     volumes:
       - ./ssl:/etc/ssl/certs
     network_mode: host
