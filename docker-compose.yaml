@@ -5,7 +5,12 @@ services:
     network_mode: host
     depends_on:
       - erlang-server
-    command: [ "java", "-cp", "/usr/src/app/classes", "net.christopherschultz.ssltest.SSLTest", "-ciphers", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384", "-showcerts", "-enabledprotocols", "TLSv1.2", "localhost:8443" ]
+    command: [
+      "java", "-cp", "/usr/src/app/classes", "net.christopherschultz.ssltest.SSLTest",
+      # "-ciphers", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+      "-enabledprotocols", "TLSv1.2",
+      "localhost:8443"
+    ]
   erlang-server:
     build:
       context: .
